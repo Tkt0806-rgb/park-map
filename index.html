@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>地図案内</title>
+
+<style>
+.map-container{position: relative;width: 1000px;margin: 0 auto;}
+
+.map{width:100%;}
+
+.spot{position:absolute;width:40px;height:40px;border-radius:50%;background:red;color:white;border:none;cursor:pointer;}
+
+.blue-box{position:absolute;width:50px;height:50px;background:blue;color:white;font-size:32px;border:none;cursor:pointer;}
+
+.black-box{position:absolute;width:120px;height:50px;background:black;color:white;font-size:16px;border:none;cursor:pointer;}
+
+#popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;}
+
+.popup-content{background:white;padding:20px;border-radius:10px;width:800px;}
+
+.popup-content img{width:50%;max-width:500px;height:auto;}
+
+.popup-content img{width:30%;margin:5px;}
+
+#video1{width:30%;display:inline-block;vertical-align:top;}
+
+#routePhoto{width:50%;display:inline-block;vertical-align:top;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="map-container">
+
+<img src="map.png" class="map">
+
+<button class="spot"
+style="left:45%; top:25%;"
+onclick="showSpot('大正天皇のお手植え松','images/matsu1.jpg','images/matsu2.jpg','1907年に当時皇太子であった大正天皇が御手植えされた松。')">
+①
+</button>
+
+<button class="spot"
+style="left:35.5%; top:34%;"
+onclick="showSpot('自由広場','images/hiroba1.jpg','images/hiroba2.jpg','広い芝生広場です。')">
+②
+</button>
+
+<button class="spot"
+style="left:42.2%; top:52.5%;"
+onclick="showSpot('猿が島','images/saru1.jpg','images/saru2.jpg','米子ライオンズクラブ結成30周年(1986年)の記念事業として建設。約40匹のニホンザルが飼育されている。(2026年6月25日現在)')">
+④
+</button>
+
+<button class="spot"
+style="left:28%; top:53%;"
+onclick="showSpot('遊具広場','images/asobi1.jpg','images/asobi2.jpg','トンネル型の滑り台が特徴の大きな複合遊具やブランコ、シーソー、スウィング遊具など多くの遊具がある。')">
+③
+</button>
+
+<button class="spot"
+style="left:24.7%; top:48%;"
+onclick="showSpot('D51蒸気機関車','images/kikansya1.jpg','images/kikansya2.jpg','蒸気機関車は昭和49年11月30日を最後にこの地方から姿を消したが、市民の皆様に最も親しまれていた「D51蒸気機関車」を借り受けて保存展示している。')">
+⑤
+</button>
+
+<button class="spot"
+style="left:63.5%; top:7%;"
+onclick="showSpot('日本庭園','images/teien1.jpg','images/teien2.jpg','ソテツやその他の様々な樹木があり、季節ごとに異なる雰囲気を楽しめる。市指定史跡の清洞寺跡がある。')">
+⑥
+</button>
+
+<button class="spot"
+style="left:29.5%; top:71%;"
+onclick="showSpot('桜の園','images/sono1.jpg','images/sono2.jpg','春には多数の桜が開花する。中央には桜をイメージした五角形の噴水もある。また、申請することでバーベキューができる。')">
+⑦
+</button>
+
+<button class="blue-box"
+style="left:46%; top:88.3%;"
+onclick="showSpot('駐車場','images/kuruma1.jpg','images/kuruma2.jpg','駐車台数：123台(障害者4台を含む)<br>駐車場開園時間：9:00～19:00(4月1日～10月31日)<br>　　　　　　　　9:00～17:00(11月1日～3月31日)')">
+P
+</button>
+
+<button class="blue-box"
+style="left:17.9%; top:81.1%;"
+onclick="showSpot('駐車場','images/kuruma3.jpg','images/kuruma4.jpg','駐車台数：123台(障害者4台を含む)<br>駐車場開園時間：9:00～19:00(4月1日～10月31日)<br>　　　　　　　　9:00～17:00(11月1日～3月31日)<br>運がいいと猫が見れるかも？')">
+P
+</button>
+
+<button class="black-box"
+style="left:83%; top:16%;"
+onclick="showRoute('駐車場までのルート','movies/route.mp4','images/route.jpg','駐車場までの案内動画です')">
+駐車場までのルート
+</button>
+
+</div>
+
+<div id="popup">
+
+<div class="popup-content">
+
+<h2 id="title"></h2>
+
+
+
+<img id="photo1">
+<img id="photo2">
+
+<video id="video1"
+       controls
+       style="display:none;">
+</video>
+
+<img id="routePhoto"
+     style="display:none;">
+<p id="description"></p>
+
+<button onclick="closePopup()">
+閉じる
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function showSpot(title,img1,img2,text){
+
+    document.getElementById("video1").style.display = "none";
+    document.getElementById("routePhoto").style.display = "none";
+
+    document.getElementById("photo1").style.display = "inline";
+    document.getElementById("photo2").style.display = "inline";
+
+    document.getElementById("title").innerText = title;
+
+    document.getElementById("photo1").src = img1;
+
+    document.getElementById("photo2").src = img2;
+
+    document.getElementById("description").innerHTML = text;
+
+    document.getElementById("popup").style.display = "flex";
+}
+
+function showRoute(title,movie,img,text){
+
+    document.getElementById("photo1").style.display = "none";
+    document.getElementById("photo2").style.display = "none";
+
+    document.getElementById("video1").style.display = "inline-block";
+
+    document.getElementById("routePhoto").style.display = "inline-block";
+
+    document.getElementById("video1").src = movie;
+
+    document.getElementById("routePhoto").src = img;
+
+    document.getElementById("title").innerText = title;
+
+    document.getElementById("description").innerHTML = text;
+
+    document.getElementById("popup").style.display = "flex";
+}
+function closePopup(){
+
+    document.getElementById("popup").style.display = "none";
+}
+</script>
+
+</body>
+</html>
